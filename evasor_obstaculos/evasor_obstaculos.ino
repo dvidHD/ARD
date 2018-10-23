@@ -1,31 +1,33 @@
-#include <Servo.h>
 
-Servo derecha;
-Servo izquierda;
 
 int trigPin = 9;
 int echoPin = 10;
-// defines variables
+
 long duration;
 int distance;
+
+int led = 3;
 
 void setup() {
 pinMode(trigPin, OUTPUT); 
 pinMode(echoPin, INPUT);
-
-derecha.attach(11);
-izquierda.attach(12);
-
+pinMode(led,OUTPUT);
 Serial.begin(9600);
 }
 
 void loop() {
-  
-  distancia();
+  encender();
 }
 
-void distancia(){
+void encender(){
+  digitalWrite(led,HIGH);
+  delay(1000);
+  digitalWrite(led,LOW);
+  delay(1000);
+}
 
+
+void distancia(){
 // Clears the trigPin
 digitalWrite(trigPin, LOW);
 delayMicroseconds(2);
@@ -42,10 +44,5 @@ Serial.print("Distance: ");
 Serial.println(distance);
 }
 
-void avanza(){
-  dereccha.write(180);
-  izquierda.write(0);
-  delay(500);
-}
 
 
