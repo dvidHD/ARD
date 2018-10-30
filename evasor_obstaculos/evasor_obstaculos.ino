@@ -16,14 +16,21 @@ Serial.begin(9600);
 }
 
 void loop() {
-  encender();
+
+distancia();
+//aqui me va a decir a que distancia esta mi obstaculo del sensor
+
+if(distance < 20){
+  digitalWrite(led,HIGH);
+} else{
+  digitalWrite(led,LOW);
+}
+  
 }
 
 void encender(){
   digitalWrite(led,HIGH);
-  delay(1000);
-  digitalWrite(led,LOW);
-  delay(1000);
+  
 }
 
 
