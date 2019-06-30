@@ -1,5 +1,6 @@
-const int joyLR = 2;     //Declaramos el puerto analogico en el que conectaremos la señal del potenciometro "L/R" del Joystick  
-const int joyUD = 4;    //Declaramos el puerto analogico en el que conectaremos la señal del potenciometro "U/D" del Joystick
+
+const int joyLR = A2;     //Declaramos el puerto analogico en el que conectaremos la señal del potenciometro "L/R" del Joystick  
+const int joyUD = A4;    //Declaramos el puerto analogico en el que conectaremos la señal del potenciometro "U/D" del Joystick
 int movservo;          //Variable en la que se guardara la lectura del Joystick L/R
 int movservo2;        //Variable en la que se guardara la lectura del Joystick U/D
 int t=100;           //Variable para delay

@@ -3,6 +3,7 @@ float Y = A1;
 float valX;
 float valY;
 
+
 void setup() {
   pinMode(X, INPUT);
   pinMode(Y, INPUT);
@@ -18,6 +19,5 @@ valY = analogRead(Y);
 delay(30);
 Serial.println(valX);
 Serial.println(valY);
-
   
 }

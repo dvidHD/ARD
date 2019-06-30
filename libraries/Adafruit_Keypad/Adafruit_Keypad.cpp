@@ -66,26 +66,27 @@ volatile byte *Adafruit_Keypad::getKeyState(byte key)
 /**************************************************************************/
 void Adafruit_Keypad::tick() {
     uint8_t evt;
-    for(int i=0; i<_numRows; i++){
-        digitalWrite(_row[i], LOW);
+    for(int i=0; i<_numCols; i++){
+        digitalWrite(_col[i], HIGH);
     }
 
     int i = 0;
-    for(int r=0; r<_numRows; r++){
-        digitalWrite(_row[r], HIGH);
+    for(int c=0; c<_numCols; c++){
+        digitalWrite(_col[c], LOW);
         delayMicroseconds(_KEYPAD_SETTLING_DELAY);
-        for(int c=0; c<_numCols; c++){
-            bool pressed = digitalRead(_col[c]);
+        for(int r=0; r<_numRows; r++){
+            i = r*_numCols + c;
+            bool pressed = !digitalRead(_row[r]);
             //Serial.print((int)pressed);
             volatile byte *state = _keystates + i;
             byte currentState = *state;
-            if(pressed && !(currentState & _KEY_PRESSED)){
+            if (pressed && !(currentState & _KEY_PRESSED)){
                 currentState |= (_JUST_PRESSED | _KEY_PRESSED);
                 evt = KEY_JUST_PRESSED;
                 _eventbuf.store_char(evt);
                 _eventbuf.store_char(*(_userKeymap + i));
             }
-            else if(!pressed && (currentState & _KEY_PRESSED)){
+            else if (!pressed && (currentState & _KEY_PRESSED)){
                 currentState |= _JUST_RELEASED;
                 currentState &= ~(_KEY_PRESSED);
                 evt = KEY_JUST_RELEASED;
@@ -93,10 +94,9 @@ void Adafruit_Keypad::tick() {
                 _eventbuf.store_char(*(_userKeymap + i));
             }
             *state = currentState;
-            i++;
         }
         //Serial.println("");
-        digitalWrite(_row[r], LOW);
+        digitalWrite(_col[c], HIGH);
     }
 }
 
@@ -110,13 +110,13 @@ void Adafruit_Keypad::begin()
     _keystates = (volatile byte *)malloc(_numRows * _numCols);
     memset((void *)_keystates, 0, _numRows * _numCols);
 
-    for(int i=0; i<_numRows; i++){
-        pinMode(_row[i], OUTPUT);
-        digitalWrite(_row[i], LOW);
+    for(int i=0; i<_numCols; i++){
+        pinMode(_col[i], OUTPUT);
+        digitalWrite(_col[i], HIGH);
     }
 
-    for(int i=0; i<_numCols; i++){
-        pinMode(_col[i], INPUT_PULLDOWN);
+    for(int i=0; i<_numRows; i++){
+        pinMode(_row[i], INPUT_PULLUP);
     }
 }
 
@@ -124,15 +124,17 @@ void Adafruit_Keypad::begin()
 /*! 
     @brief  check if the given key has just been pressed since the last tick.
     @param  key the name of the key to be checked
+    @param  clear whether to reset the state (default yes) post-check
     @returns    true if it has been pressed, false otherwise.
 */
 /**************************************************************************/
-bool Adafruit_Keypad::justPressed(byte key)
+bool Adafruit_Keypad::justPressed(byte key, bool clear)
 {
     volatile byte *state = getKeyState(key);
     bool val = (*state & _JUST_PRESSED) != 0;
 
-    *state &= ~(_JUST_PRESSED);
+    if(clear)
+    	*state &= ~(_JUST_PRESSED);
 
     return val;
 }
@@ -202,4 +204,17 @@ keypadEvent Adafruit_Keypad::read()
     k.bit.KEY = _eventbuf.read_char();
 
     return k;
+}
+
+
+/**************************************************************************/
+/*! 
+    @brief Clear out the event buffer and all the key states
+*/
+/**************************************************************************/
+void Adafruit_Keypad::clear()
+{
+	_eventbuf.clear();
+	for(int i=0; i<_numRows*_numCols; i++)
+		*(_keystates + i) = 0;
 }

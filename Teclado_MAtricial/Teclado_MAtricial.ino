@@ -52,6 +52,7 @@ void loop()
       digitalWrite(ledv,HIGH);
       digitalWrite(leda,LOW);
       digitalWrite(ledr,LOW);
+      Serial.println("encendio el 1");
     }
        else if (clic=='5'){
       digitalWrite(ledv,LOW);
@@ -69,6 +70,12 @@ void loop()
       digitalWrite(leda,LOW);
        digitalWrite(ledr,LOW);
       digitalWrite(ledx,HIGH);
+       
+    }
+        else if (clic=='0'){
+      digitalWrite(ledR,125);
+      digitalWrite(ledA,HIGH);
+      
        
     }
 }

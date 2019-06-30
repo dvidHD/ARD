@@ -1,4 +1,7 @@
-#include "DHT.h"
+#include <DHT.h>
+#include <DHT_U.h>
+
+
 
 #define DHTPIN 2   // en que pin se conecta el sensor
 
