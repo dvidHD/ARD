@@ -6,8 +6,8 @@ int x;
 
 void setup() {
   // put your setup code here, to run once:
-  izq.attach(3);  //vinculamos el puerto digital "3" al objeto "izq" que será donde estará conectado el motor izquierdo del robot
-  der.attach(10); 
+  izq.attach(5);  //vinculamos el puerto digital "3" al objeto "izq" que será donde estará conectado el motor izquierdo del robot
+  der.attach(6); 
   x=0;
   Serial.begin(9600);
 }

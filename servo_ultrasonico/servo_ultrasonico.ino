@@ -2,21 +2,22 @@
 
 Servo derecha;  
 Servo izquierda;
-int trigPin = 1;
-int echoPin = 2;
+int trigPin = 10;
+int echoPin = 11;
 
 long duration;
 int distance;
 
 void setup() {
-  derecha.attach(8);
-  izquierda.attach(7);
+  derecha.attach(6);
+  izquierda.attach(3);
   pinMode(trigPin, OUTPUT); 
   pinMode(echoPin, INPUT);
   Serial.begin(9600);
 }
 
 void loop() {
+  
   // Clears the trigPin
 digitalWrite(trigPin, LOW);
 delayMicroseconds(2);
@@ -32,13 +33,24 @@ distance= duration*0.034/2;
 Serial.print("Distance: ");
 Serial.println(distance);
 
-if (distance < 80){
-    derecha.write(90);
+delay(150);
+
+if (distance < 15){
+    derecha.write(140);
     izquierda.write(90);
-  }
-  else{
-    derecha.write(180);
+   delay(200);
+   derecha.write(180);
     izquierda.write(0);
+    delay(200);
+    derecha.write(140);
+    izquierda.write(90);
+    delay(120);
+  }
+  if(distance > 30){
+    derecha.write(0);
+    izquierda.write(180);
+    delay(400);
   }
   
+    
 }
