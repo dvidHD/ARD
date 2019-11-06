@@ -1,5 +1,7 @@
-//Include LCD library   aqui inicio
 #include <LiquidCrystal.h>
+
+//Include LCD library   aqui inicio
+
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);
@@ -129,7 +131,7 @@ void loop() {
    
   lcd.setCursor(0, 0);
   //Print a message to second line of LCD
-  lcd.print("Bienvenido");
+  lcd.print("INSCRIBETE");
   delay(500);
   lcd.setCursor(0, 1);
   lcd.print("A ROBOTICA");
